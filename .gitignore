@@ -19,3 +19,4 @@ config/compile
 *.patch
 build/
 CMakeLists.txt.user
+.dirstamp

@@ -17,13 +17,13 @@
 #include <memory>
 
 #ifdef __GNUC__
-#include <tr1/memory>
+#include <memory>
 #endif
 
 namespace lyx
 {
-	using std::tr1::shared_ptr;
-	using std::tr1::const_pointer_cast;
+	using std::shared_ptr;
+	using std::const_pointer_cast;
 }
 
 #else

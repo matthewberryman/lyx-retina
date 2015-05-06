@@ -157,7 +157,7 @@ public:
 		QString const text = lyx_version ?
 			qt_("version ") + lyx_version : qt_("unknown version");
 		splash_ = getPixmap("images/", "banner", "png");
-        splash_.setDevicePixelRatio(2.0);
+        //splash_.setDevicePixelRatio(2.0);
 
 		QPainter pain(&splash_);
 		pain.setPen(QColor(0, 0, 0));
@@ -479,9 +479,9 @@ GuiView::GuiView(int id)
 	busyanim->start();
 	busylabel->hide();
 
-	connect(&d.processing_thread_watcher_, SIGNAL(started()), 
+	connect(&d.processing_thread_watcher_, SIGNAL(started()),
 		busylabel, SLOT(show()));
-	connect(&d.processing_thread_watcher_, SIGNAL(finished()), 
+	connect(&d.processing_thread_watcher_, SIGNAL(finished()),
 		busylabel, SLOT(hide()));
 
 	statusBar()->setSizeGripEnabled(true);
@@ -577,7 +577,7 @@ void GuiView::processingThreadFinished()
 
 	Buffer::ExportStatus const status = watcher->result();
 	handleExportStatus(this, status, d.processing_format);
-	
+
 	updateToolbars();
 	BufferView const * const bv = currentBufferView();
 	if (bv && !bv->buffer().errorList("Export").empty()) {
@@ -675,7 +675,7 @@ bool GuiView::restoreLayout()
 
 	if (!restoreState(settings.value("layout").toByteArray(), 0))
 		initToolbars();
-	
+
 	// init the toolbars that have not been restored
 	Toolbars::Infos::iterator cit = guiApp->toolbars().begin();
 	Toolbars::Infos::iterator end = guiApp->toolbars().end();
@@ -835,7 +835,7 @@ void GuiView::closeEvent(QCloseEvent * close_event)
 	LYXERR(Debug::DEBUG, "GuiView::closeEvent()");
 
 	if (!GuiViewPrivate::busyBuffers.isEmpty()) {
-		Alert::warning(_("Exit LyX"), 
+		Alert::warning(_("Exit LyX"),
 			_("LyX could not be closed because documents are being processed by LyX."));
 		close_event->setAccepted(false);
 		return;
@@ -1004,7 +1004,7 @@ void GuiView::updateWindowTitle(GuiWorkArea * wa)
 	setWindowTitle(qt_("LyX: ") + wa->windowTitle());
 	setWindowIconText(wa->windowIconText());
 #if (QT_VERSION >= 0x040400)
-	// Sets the path for the window: this is used by OSX to 
+	// Sets the path for the window: this is used by OSX to
 	// allow a context click on the title bar showing a menu
 	// with the path up to the file
 	setWindowFilePath(toqstr(wa->bufferView().buffer().absFileName()));
@@ -1201,7 +1201,7 @@ void GuiView::setBusy(bool busy)
 		return;
 	}
 	QApplication::restoreOverrideCursor();
-	updateLayoutList();	
+	updateLayoutList();
 }
 
 
@@ -1297,7 +1297,7 @@ void GuiView::setCurrentWorkArea(GuiWorkArea * wa)
 
 	theGuiApp()->setCurrentView(this);
 	d.current_work_area_ = wa;
-	
+
 	// We need to reset this now, because it will need to be
 	// right if the tabWorkArea gets reset in the for loop. We
 	// will change it back if we aren't in that case.
@@ -1306,14 +1306,14 @@ void GuiView::setCurrentWorkArea(GuiWorkArea * wa)
 
 	for (int i = 0; i != d.splitter_->count(); ++i) {
 		if (d.tabWorkArea(i)->setCurrentWorkArea(wa)) {
-			LYXERR(Debug::DEBUG, "Current wa: " << currentWorkArea() 
+			LYXERR(Debug::DEBUG, "Current wa: " << currentWorkArea()
 				<< ", Current main wa: " << currentMainWorkArea());
 			return;
 		}
 	}
-	
+
 	d.current_main_work_area_ = old_cmwa;
-	
+
 	LYXERR(Debug::DEBUG, "This is not a tabbed wa");
 	on_currentWorkAreaChanged(wa);
 	BufferView & bv = wa->bufferView();
@@ -1411,7 +1411,7 @@ void GuiView::setBuffer(Buffer * newBuffer)
 {
 	LYXERR(Debug::DEBUG, "Setting buffer: " << newBuffer << endl);
 	LASSERT(newBuffer, return);
-	
+
 	GuiWorkArea * wa = workArea(*newBuffer);
 	if (wa == 0) {
 		setBusy(true);
@@ -1751,7 +1751,7 @@ bool GuiView::getStatus(FuncRequest const & cmd, FuncStatus & flag)
 		else if (name == "latexlog")
 			enable = FileName(doc_buffer->logName()).isReadableFile();
 		else if (name == "spellchecker")
-			enable = theSpellChecker() 
+			enable = theSpellChecker()
 				&& !doc_buffer->isReadonly()
 				&& !doc_buffer->text().empty();
 		else if (name == "vclog")
@@ -2641,7 +2641,7 @@ bool GuiView::closeWorkArea(GuiWorkArea * wa, bool close_buffer)
 	Buffer & buf = wa->bufferView().buffer();
 
 	if (close_buffer && GuiViewPrivate::busyBuffers.contains(&buf)) {
-		Alert::warning(_("Close document"), 
+		Alert::warning(_("Close document"),
 			_("Document could not be closed because it is being processed by LyX."));
 		return false;
 	}
@@ -2815,7 +2815,7 @@ void GuiView::gotoNextOrPreviousBuffer(NextOrPrevious np)
 {
 	if (!documentBufferView())
 		return;
-	
+
 	if (TabWorkArea * twa = d.currentTabWorkArea()) {
 		Buffer * const curbuf = &documentBufferView()->buffer();
 		int nwa = twa->count();
@@ -3248,12 +3248,12 @@ bool GuiView::GuiViewPrivate::asyncBufferProcessing(
 		// TODO check here if it breaks exporting with Qt < 4.4
 		status = (used_buffer->*syncFunc)(format, true);
 	} else if (previewFunc) {
-		status = (used_buffer->*previewFunc)(format); 
+		status = (used_buffer->*previewFunc)(format);
 	} else
 		return false;
 	handleExportStatus(gv_, status, format);
 	(void) asyncFunc;
-	return (status == Buffer::ExportSuccess 
+	return (status == Buffer::ExportSuccess
 			|| status == Buffer::PreviewSuccess);
 #endif
 }
@@ -3478,14 +3478,14 @@ void GuiView::dispatch(FuncRequest const & cmd, DispatchResult & dr)
 				dr.setMessage(_("Absolute filename expected."));
 				break;
 			}
-			
+
 			FileName filename(fname);
 			if (fname.empty()) {
 				FileDialog dlg(qt_("Select file to insert"));
 
 				FileDialog::Result result = dlg.open(toqstr(bv->buffer().filePath()),
 					QStringList(qt_("All Files (*)")));
-				
+
 				if (result.first == FileDialog::Later || result.second.isEmpty()) {
 					dr.setMessage(_("Canceled."));
 					break;
@@ -3771,7 +3771,7 @@ void GuiView::dispatch(FuncRequest const & cmd, DispatchResult & dr)
 					doc_buffer->absFileName(),
 						"tex")).mangledFileName()
 				: doc_buffer->latexName();
-			string const fulltexname = 
+			string const fulltexname =
 				support::makeAbsPath(texname, doc_master->temppath()).absFileName();
 			string const mastername =
 				removeExtension(doc_master->latexName());

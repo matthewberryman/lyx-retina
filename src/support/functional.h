@@ -17,12 +17,12 @@
 #include <functional>
 
 #ifdef __GNUC__
-#include <tr1/functional>
+#include <functional>
 #endif
 
 namespace lyx
 {
-	using std::tr1::function;
+	using std::function;
 }
 
 #else

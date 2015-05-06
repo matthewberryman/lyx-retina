@@ -506,7 +506,7 @@ QString iconName(FuncRequest const & f, bool unknown)
 
 	QStringList imagedirs;
 	imagedirs << "images/" << "images/ipa/";
-	for (int i = 0; i < imagedirs.size(); ++i) { 
+	for (int i = 0; i < imagedirs.size(); ++i) {
 		QString imagedir = imagedirs.at(i) + path;
 		FileName fname = imageLibFileSearch(imagedir, name1, "png");
 		if (fname.exists())
@@ -596,7 +596,7 @@ QIcon getIcon(FuncRequest const & f, bool unknown)
 		return QIcon();
 	}
 
-	pm.setDevicePixelRatio(2.0);
+	//pm.setDevicePixelRatio(2.0);
 	return QIcon(pm);
 }
 
@@ -1686,14 +1686,14 @@ void GuiApplication::dispatch(FuncRequest const & cmd, DispatchResult & dr)
 
 		// If the request comes from the minibuffer, then we can't reset
 		// the GUI, since that would destory the minibuffer itself and
-		// cause a crash, since we are currently in one of the methods of 
-		// GuiCommandBuffer. See bug #8540. 
+		// cause a crash, since we are currently in one of the methods of
+		// GuiCommandBuffer. See bug #8540.
 		if (cmd.origin() != FuncRequest::COMMANDBUFFER)
 			resetGui();
 		// else
 		//   FIXME Unfortunately, that leaves a bug here, since we cannot
 		//   reset the GUI in this case. If the changes to lyxrc affected the
-		//   UI, then, nothing would happen. This seems fairly unlikely, but 
+		//   UI, then, nothing would happen. This seems fairly unlikely, but
 		//   it definitely is a bug.
 
 		break;
@@ -1906,9 +1906,9 @@ void GuiApplication::dispatch(FuncRequest const & cmd, DispatchResult & dr)
 		istringstream ss(argument);
 		Lexer lex;
 		lex.setStream(ss);
-		
+
 		// See #9236
-		// We need to make sure that, after we recreat the DocumentClass, 
+		// We need to make sure that, after we recreat the DocumentClass,
 		// which we do in readHeader, we apply it to the document itself.
 		DocumentClassConstPtr olddc = defaults.params().documentClassPtr();
 		int const unknown_tokens = defaults.readHeader(lex);
